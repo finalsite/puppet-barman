@@ -173,6 +173,8 @@
 #                           `postgresql::globals` class.
 # [*purge_unknown_conf*] - Whether or not barman conf files not included in
 #                          puppetdb will be removed by puppet.
+# [*servers*] - FS customization to support the servers define and hiera.
+#               Defaults to undef.
 #
 # === Facts
 #
@@ -264,7 +266,18 @@ class barman (
   $tablespace_bandwidth_limit    = $::barman::settings::tablespace_bandwidth_limit,
   $wal_retention_policy          = $::barman::settings::wal_retention_policy,
   $custom_lines                  = $::barman::settings::custom_lines,
+  $servers                       = undef,
 ) inherits barman::settings {
+
+  if ($servers) {
+    validate_hash($servers)
+    $real_servers = deep_merge(hiera_hash('barman::servers', {}), $servers)
+  } else {
+    $real_servers = hiera_has('barman::servers', {})
+  }
+
+  validate_hash($real_servers)
+  create_resources('barman::server', $real_servers)
 
   # Check if autoconfigure is a boolean
   validate_bool($autoconfigure)
