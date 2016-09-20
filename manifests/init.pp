@@ -273,7 +273,7 @@ class barman (
     validate_hash($servers)
     $real_servers = deep_merge(hiera_hash('barman::servers', {}), $servers)
   } else {
-    $real_servers = hiera_has('barman::servers', {})
+    $real_servers = hiera_hash('barman::servers', {})
   }
 
   validate_hash($real_servers)
