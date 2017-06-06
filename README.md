@@ -106,6 +106,8 @@ These are the available parameters for the `barman` class
                             files.
 * **logfile** - A different log file. The default is
                 `barman::settings::logfile`.
+* **log_level** - Level of logging. The default is INFO, a global setting
+                `barman::settings::log_level`.
 * **compression** - Compression algorithm. Currently supports `gzip`, `bzip2`,
                     and `custom`. Defaults to `barman::settings:compression`.
 * **immediate_checkpoint** -  Force the checkpoint on the Postgres server to
